@@ -70,7 +70,7 @@ My portfolio website blends interactive design with a professional, user-friendl
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/Wesley-2329/portfolio.git
+   git clone https://github.com/wesley-2329/wesley-portfolio.git
    ```
 2. **Install dependencies**:
 

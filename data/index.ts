@@ -97,7 +97,7 @@ export const projects = [
       "/icons/Python.svg",
       "/icons/MySQL.svg",
     ],
-    link: "https://github.com/ayesha19765/ad-data",
+    link: "https://github.com/wesley-2329/ad-data",
   },
   {
     id: 4,
@@ -124,7 +124,7 @@ export const projects = [
       "/icons/Express.svg",
       "/icons/React.svg",
     ],
-    link: "https://github.com/ayesha19765/CozyStay",
+    link: "https://github.com/wesley-2329/CozyStay",
   },
   {
     id: 6,
@@ -137,7 +137,7 @@ export const projects = [
       "/icons/Three.js.svg",
       "/icons/Node.js.svg",
     ],
-    link: "https://github.com/ayesha19765/portfolio",
+    link: "https://github.com/wesley-2329/wesley-portfolio",
   },
   {
     id: 3,
@@ -149,7 +149,7 @@ export const projects = [
       "/icons/ngrok.svg",
       "/icons/FastApi.svg",
     ],
-    link: "https://github.com/ayesha19765/Smart-Chatbot-Integration-for-Enhanced-Food-Ordering-Experience",
+    link: "https://github.com/wesley-2329/Smart-Chatbot-Integration-for-Enhanced-Food-Ordering-Experience",
   },
   {
     id: 8,
@@ -161,7 +161,7 @@ export const projects = [
       "/icons/Ethereum.svg",
       "/icons/React.svg",
     ],
-    link: "https://github.com/ayesha19765/Cloud-Drop",
+    link: "https://github.com/wesley-2329/Cloud-Drop",
   },
   {
     id: 9,
@@ -175,7 +175,7 @@ export const projects = [
       "/icons/MongoDB.svg",
       "/icons/React.svg",
     ],
-    link: "https://github.com/ayesha19765/DefktGuard",
+    link: "https://github.com/wesley-2329/DefktGuard",
   },
   {
     id: 2,
@@ -188,7 +188,7 @@ export const projects = [
       "/icons/NumPy.svg",
       "/icons/Python.svg",
     ],
-    link: "https://github.com/ayesha19765/Enhancing-OCT-Scans-with-Super-Resolution-GANs",
+    link: "https://github.com/wesley-2329/Enhancing-OCT-Scans-with-Super-Resolution-GANs",
   },
 ];
 
