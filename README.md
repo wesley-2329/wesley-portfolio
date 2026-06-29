@@ -88,6 +88,4 @@ My portfolio website blends interactive design with a professional, user-friendl
 
 ---
 
-Made With Love 🧡
-
-©2024 Wesley’s Portfolio. All rights reserved.
+© Wesley’s Portfolio. All rights reserved.
