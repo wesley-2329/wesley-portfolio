@@ -201,7 +201,7 @@ export const socialMedia = [
   {
     id: 2,
     img: "/leetcode.svg",
-    link: "https://leetcode.com/u/wesley290305/",
+    link: "https://leetcode.com/u/wesley-2329/",
   },
   {
     id: 3,
