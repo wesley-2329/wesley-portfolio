@@ -4,82 +4,181 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-
-    --radius: 0.5rem;
+    color-scheme: dark;
+    --mx: 50vw;
+    --my: 40vh;
   }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+  html {
+    background: #050507;
+    -webkit-text-size-adjust: 100%;
+  }
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+  /* Lenis owns smooth scrolling; native smooth behaviour would fight it. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+  body {
+    @apply bg-ink font-sans text-fg antialiased;
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+  }
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+  ::selection {
+    background: rgba(142, 123, 255, 0.35);
+    color: #fff;
+  }
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+  :focus-visible {
+    outline: 2px solid #8e7bff;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+  section[id] {
+    scroll-margin-top: 5rem;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border !scroll-smooth;
+@layer components {
+  .eyebrow {
+    @apply font-mono text-[0.7rem] uppercase tracking-[0.22em] text-fg-muted;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  .text-gradient {
+    background: linear-gradient(100deg, #b5a8ff 0%, #8e7bff 30%, #4fd1e8 70%, #9be7f4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
-  button {
-    @apply active:outline-none;
+
+  .text-gradient-animated {
+    background: linear-gradient(100deg, #b5a8ff, #8e7bff, #4fd1e8, #e9c9a1, #b5a8ff);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    @apply animate-shimmer;
+  }
+
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.16);
+  }
+
+  .surface {
+    @apply rounded-3xl border border-line bg-ink-800/70;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .hairline {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+    height: 1px;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white/[0.03] px-3 py-1 font-mono text-[0.7rem] tracking-wide text-fg-muted;
+  }
+
+  /* Card with a cursor-tracked rim light (uses --x/--y set from JS). */
+  .spotlight-card {
+    position: relative;
+    isolation: isolate;
+  }
+  .spotlight-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      420px circle at var(--x, 50%) var(--y, 50%),
+      rgba(142, 123, 255, 0.55),
+      rgba(79, 209, 232, 0.25) 40%,
+      transparent 70%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .spotlight-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      600px circle at var(--x, 50%) var(--y, 50%),
+      rgba(142, 123, 255, 0.07),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .spotlight-card:hover::before,
+  .spotlight-card:hover::after {
+    opacity: 1;
   }
 }
 
 @layer utilities {
-  .heading {
-    @apply font-bold text-4xl md:text-5xl text-center;
+  .grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.055;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .bg-grid {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  .mask-fade-y {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+  }
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  }
+  .mask-radial {
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
+/* Respect users who ask for less motion: stop ambient loops entirely. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

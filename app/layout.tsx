@@ -1,49 +1,86 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
+import type { Metadata, Viewport } from "next";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import localFont from "next/font/local";
+import { site, socials } from "@/data";
 import "./globals.css";
-import { ThemeProvider } from "./provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const serif = localFont({
+  src: [
+    { path: "../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2", style: "italic", weight: "400" },
+  ],
+  variable: "--font-serif",
+  display: "swap",
+  // Only used below the fold, so don't compete with hero assets.
+  preload: false,
+});
 
 export const metadata: Metadata = {
-  title: "Wesley's Portfolio",
-  description: "Portfolio",
+  metadataBase: new URL(site.url),
+  title: { default: site.title, template: `%s — ${site.name}` },
+  description: site.description,
+  applicationName: `${site.name} — Portfolio`,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  keywords: [
+    "John Wesley",
+    "Software Engineer",
+    "AI/ML Engineer",
+    "Full-Stack Developer",
+    "ABV-IIITM Gwalior",
+    "Machine Learning",
+    "Computer Vision",
+    "NLP",
+    "React",
+    "Portfolio",
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "profile",
+    url: site.url,
+    title: site.title,
+    description: site.description,
+    siteName: `${site.name} — Portfolio`,
+    images: site.photo.src ? [{ url: site.photo.src, width: site.photo.width, height: site.photo.height, alt: site.photo.alt }] : [],
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+    images: site.photo.src ? [site.photo.src] : [],
+  },
+  icons: { icon: "/w-letter-logo.png", apple: "/w-letter-logo.png" },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: "#050507",
+  colorScheme: "dark",
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: site.url,
+  jobTitle: site.roles.join(" | "),
+  email: `mailto:${site.email}`,
+  image: site.photo.src ? `${site.url}${site.photo.src}` : undefined,
+  alumniOf: { "@type": "CollegeOrUniversity", name: "ABV-IIITM Gwalior" },
+  sameAs: socials.map((s) => s.href),
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link
-          rel="icon"
-          type="image/png"
-          href="/w-letter-logo.png"
-          sizes="any"
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${serif.variable}`}>
+      <body>
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-      </head>
-      <body
-        className={`${inter.className}`}
-        style={{
-          margin: 0,
-          padding: 0,
-          overflowX: "hidden", // Prevent horizontal scrolling
-          width: "100vw", // Restrict width to viewport width
-          boxSizing: "border-box", // Ensure consistent sizing
-        }}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );
