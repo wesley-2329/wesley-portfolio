@@ -1,204 +1,97 @@
 import type { Config } from "tailwindcss";
 
-const svgToDataUri = require("mini-svg-data-uri");
-
-const colors = require("tailwindcss/colors");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
-
-const config = {
-  darkMode: ["class"],
+/**
+ * Design system — "Obsidian Signal"
+ * Near-black surfaces, quiet greys, and a restrained aurora accent
+ * (violet → cyan) warmed by a sandstone tone taken from the hero photograph.
+ */
+const config: Config = {
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
     "./data/**/*.{ts,tsx}",
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      padding: { DEFAULT: "1.25rem", md: "2rem", lg: "3rem" },
+      screens: { "2xl": "1360px" },
     },
     extend: {
       colors: {
-        black: {
-          DEFAULT: "#000",
-          100: "#000319",
-          200: "rgba(17, 25, 40, 0.75)",
-          300: "rgba(255, 255, 255, 0.125)",
+        ink: {
+          DEFAULT: "#050507",
+          900: "#09090C",
+          800: "#0F0F13",
+          700: "#16161C",
+          600: "#1F1F27",
         },
-        white: {
-          DEFAULT: "#FFF",
-          100: "#BEC1DD",
-          200: "#C1C2D3",
+        fg: {
+          DEFAULT: "#EDEDEF",
+          muted: "#A1A1AA",
+          dim: "#63636E",
         },
-        blue: {
-          "100": "#E4ECFF",
+        line: {
+          DEFAULT: "rgba(255,255,255,0.08)",
+          strong: "rgba(255,255,255,0.14)",
         },
-        purple: "#CBACF9",
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
+        violet: { DEFAULT: "#8E7BFF", soft: "#B5A8FF" },
+        cyan: { DEFAULT: "#4FD1E8", soft: "#9BE7F4" },
+        sand: { DEFAULT: "#E9C9A1" },
+        signal: { DEFAULT: "#5BE49B" },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
+        serif: ["var(--font-serif)", "ui-serif", "Georgia", "serif"],
+      },
+      fontSize: {
+        "display-xl": ["clamp(3.75rem, 14.5vw, 15.5rem)", { lineHeight: "0.82", letterSpacing: "-0.055em" }],
+        display: ["clamp(2.75rem, 7vw, 6.5rem)", { lineHeight: "0.95", letterSpacing: "-0.04em" }],
+        "heading-lg": ["clamp(2.25rem, 4.6vw, 4.25rem)", { lineHeight: "1.02", letterSpacing: "-0.035em" }],
+        heading: ["clamp(1.75rem, 3vw, 2.75rem)", { lineHeight: "1.08", letterSpacing: "-0.03em" }],
+      },
+      transitionTimingFunction: {
+        expo: "cubic-bezier(0.16, 1, 0.3, 1)",
+        "in-out-quart": "cubic-bezier(0.76, 0, 0.24, 1)",
       },
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+        marquee: {
+          from: { transform: "translate3d(0,0,0)" },
+          to: { transform: "translate3d(-50%,0,0)" },
         },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+        drift: {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1)" },
+          "33%": { transform: "translate3d(6%,-4%,0) scale(1.08)" },
+          "66%": { transform: "translate3d(-5%,5%,0) scale(0.96)" },
         },
-        spotlight: {
-          "0%": {
-            opacity: "0",
-            transform: "translate(-72%, -62%) scale(0.5)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translate(-50%,-40%) scale(1)",
-          },
+        pulseRing: {
+          "0%": { transform: "scale(1)", opacity: "0.7" },
+          "100%": { transform: "scale(2.6)", opacity: "0" },
+        },
+        scrollCue: {
+          "0%": { transform: "translateY(-100%)" },
+          "60%, 100%": { transform: "translateY(220%)" },
         },
         shimmer: {
-          from: {
-            backgroundPosition: "0 0",
-          },
-          to: {
-            backgroundPosition: "-200% 0",
-          },
+          from: { backgroundPosition: "200% 0" },
+          to: { backgroundPosition: "-200% 0" },
         },
-        moveHorizontal: {
-          "0%": {
-            transform: "translateX(-50%) translateY(-10%)",
-          },
-          "50%": {
-            transform: "translateX(50%) translateY(10%)",
-          },
-          "100%": {
-            transform: "translateX(-50%) translateY(-10%)",
-          },
-        },
-        moveInCircle: {
-          "0%": {
-            transform: "rotate(0deg)",
-          },
-          "50%": {
-            transform: "rotate(180deg)",
-          },
-          "100%": {
-            transform: "rotate(360deg)",
-          },
-        },
-        moveVertical: {
-          "0%": {
-            transform: "translateY(-50%)",
-          },
-          "50%": {
-            transform: "translateY(50%)",
-          },
-          "100%": {
-            transform: "translateY(-50%)",
-          },
-        },
-        scroll: {
-          to: {
-            transform: "translate(calc(-50% - 0.5rem))",
-          },
+        dash: {
+          to: { strokeDashoffset: "0" },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        spotlight: "spotlight 2s ease .75s 1 forwards",
-        shimmer: "shimmer 2s linear infinite",
-        first: "moveVertical 30s ease infinite",
-        second: "moveInCircle 20s reverse infinite",
-        third: "moveInCircle 40s linear infinite",
-        fourth: "moveHorizontal 40s ease infinite",
-        fifth: "moveInCircle 20s ease infinite",
-        scroll:
-          "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+        marquee: "marquee var(--marquee-duration, 40s) linear infinite",
+        drift: "drift 22s ease-in-out infinite",
+        "drift-slow": "drift 34s ease-in-out infinite reverse",
+        "pulse-ring": "pulseRing 2.2s cubic-bezier(0.16,1,0.3,1) infinite",
+        "scroll-cue": "scrollCue 2.4s cubic-bezier(0.76,0,0.24,1) infinite",
+        shimmer: "shimmer 8s linear infinite",
       },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    addVariablesForColors,
-    function ({ matchUtilities, theme }: any) {
-      matchUtilities(
-        {
-          "bg-grid": (value: any) => ({
-            backgroundImage: `url("${svgToDataUri(
-              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="100" height="100" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`
-            )}")`,
-          }),
-          "bg-grid-small": (value: any) => ({
-            backgroundImage: `url("${svgToDataUri(
-              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`
-            )}")`,
-          }),
-          "bg-dot": (value: any) => ({
-            backgroundImage: `url("${svgToDataUri(
-              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`
-            )}")`,
-          }),
-        },
-        { values: flattenColorPalette(theme("backgroundColor")), type: "color" }
-      );
-    },
-  ],
-} satisfies Config;
-
-function addVariablesForColors({ addBase, theme }: any) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
-
-  addBase({
-    ":root": newVars,
-  });
-}
+  plugins: [require("tailwindcss-animate")],
+};
 
 export default config;

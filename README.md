@@ -1,91 +1,51 @@
-# Wesley's Portfolio
+# John Wesley — Portfolio
 
-## Project Description
+A cinematic, motion-driven developer portfolio for **John Wesley** — Software Engineer · AI/ML Engineer · Full-Stack Developer (Integrated M.Tech IT, ABV-IIITM Gwalior).
 
-A modern, dynamic web portfolio designed to showcase my skills, projects, and experience as a full-stack web developer. This portfolio emphasizes creativity and innovation, providing an immersive user experience while highlighting my expertise in web technologies and development practices.
+Live: https://wesley-portfolio-seven.vercel.app
 
-## Overview
+## Stack
 
-My portfolio website blends interactive design with a professional, user-friendly interface. It features animations, modern UI components, and a responsive layout to present my work and achievements in the best possible light. The goal is to provide potential recruiters and collaborators with a seamless experience while exploring my projects and skills.
+- **Next.js 14 (App Router)** + **TypeScript** + **Tailwind CSS**
+- **Framer Motion** — reveals, scroll-linked motion, layout animations, interactions
+- **Lenis** — smooth scrolling (disabled automatically for reduced-motion users)
+- **Geist Sans / Geist Mono** + **Instrument Serif** — self-hosted via `next/font`
+- **Sentry** — error monitoring (configuration unchanged)
 
-## Key Features
+## Design system — "Obsidian Signal"
 
-### Homepage
+Near-black surfaces (`ink`), quiet greys (`fg`), and a restrained aurora accent (`violet` → `cyan`) warmed by `sand`, a tone taken from the hero photograph. Tokens live in `tailwind.config.ts`; shared component styles (`.surface`, `.chip`, `.eyebrow`, `.spotlight-card`) in `app/globals.css`.
 
-- **Captivating Hero Section**: A bold introduction with a striking image and headline summarizing my expertise.
-- **Quick Navigation**: Easy access to key sections like Projects, Experience, and Contact.
-- **Interactive Elements**: Hover effects and smooth transitions to enhance user engagement.
+## Structure
 
-### Projects
+```
+app/                 layout (SEO metadata, JSON-LD, fonts) and page
+components/
+  providers/         AppProviders — Lenis, intro state, reduced-motion handling
+  layout/            Preloader, Navbar (+ scroll progress), Atmosphere, Footer
+  sections/          Hero, TechMarquee, About, Experience, Skills, Projects,
+                     Research, Education, Resume, Contact
+  ui/                SplitText, ScrollWords, Reveal, Magnetic, Button, SpotlightCard, …
+  visuals/           HeroParticles, TrajectoryVisual, BiasVisual (illustrations)
+data/index.ts        ALL site content — edit text here
+public/images        portrait
+public/projects      real project screenshots (HR Orbit, DefektGuard)
+```
 
-- **Featured Projects**: A display of key projects with brief descriptions and links to their respective repositories.
-- **Project Details**: Clicking on a project leads to a more detailed description, including technology stack, challenges faced, and solutions implemented.
+## Editing content
 
-### Skills & Experience
+All content is in `data/index.ts`.
 
-- **Tech Stack Overview**: Display of the technologies I specialize in, such as React, Next.js, TypeScript, and MongoDB.
-- **Experience Timeline**: An interactive timeline highlighting my professional milestones and achievements.
+- **Resume PDF** — add `public/resume/John_Wesley_Resume.pdf`, then set `site.resume.pdf` to `"/resume/John_Wesley_Resume.pdf"`. This enables the inline preview and direct download. Until then the buttons open the existing Google Drive link.
+- **Portrait** — `site.photo.src`. Set it to `null` to show the designed placeholder.
+- **Metrics** — each metric has `verified`. Only verified metrics are shown. Unconfirmed figures are kept with `verified: false`.
+- **Examination name** — set `achievements[0].exam` once confirmed.
 
-### Contact & Support
+## Run locally
 
-- **Contact Form**: Easy-to-use form for inquiries or collaborations.
-- **Social Links**: Direct links to my LinkedIn, GitHub, and other professional platforms.
+```bash
+npm install
+npm run dev
+```
 
-## Design Principles
-
-- **Minimalist Design**: Clean, modern aesthetic focusing on content and usability.
-- **Responsive Layout**: Fully optimized for all devices, ensuring a consistent user experience across platforms.
-- **Interactive UI**: Smooth animations and effects to engage users without overwhelming them.
-- **Performance Optimization**: Fast loading speeds and smooth transitions for a seamless browsing experience.
-
-## Technology Stack
-
-- **Frontend**: React, Next.js, TypeScript, Tailwind CSS
-- **Backend**: Next.js API Routes
-- **Error Monitoring**: Sentry for tracking errors and improving app stability
-- **Deployment**: Vercel for automated deployment and hosting
-
-## Implemented Features
-
-### Frontend
-
-- **Interactive UI**: Modern design with high-quality visuals and animations.
-- **Responsive Design**: Ensures optimal user experience on all screen sizes.
-
-### Backend
-
-- **API Routes**: Efficient API routes for handling dynamic content and data requests.
-- **Error Tracking**: Integrated with Sentry for real-time error monitoring and debugging.
-
-## Packages Used
-
-- **Sentry**: Real-time error tracking.
-- **Next.js**: Framework for server-side rendering and dynamic pages.
-- **Tailwind CSS**: Utility-first CSS framework for rapid UI development.
-- **TypeScript**: For type-safe and scalable code.
-- **dotenv**: For managing environment variables.
-- **React**: Frontend library for building dynamic components.
-
-## How to Run Locally
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/wesley-2329/wesley-portfolio.git
-   ```
-2. **Install dependencies**:
-
-   ```bash
-   npm install
-   ```
-
-3. **Start the application**:
-
-   ```bash
-   npm run dev
-   ```
-
-4. Open `http://localhost:3000` in your browser to view the portfolio.
-
----
-
-© Wesley’s Portfolio. All rights reserved.
+Production build: `npm run build && npm start`.
